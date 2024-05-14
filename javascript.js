@@ -2,149 +2,156 @@
 
 //a. Print odd numbers in an array ?
 
-const numbers = [1, 2, 3, 4, 5, 6, 7, 8, 9];
-const oddNumbers = numbers.filter(function (num) {
-  return num % 2 !== 0;
-});
+Anonymous Function:
+
+let printOdds = function(arr) {
+    return arr.filter(n => n % 2 !== 0);
+};
+console.log(printOdds([1, 2, 3, 4, 5]));
+
 console.log("Odd Numbers:", oddNumbers);
+
+IIFE:
+
+(function(arr) {
+    console.log(arr.filter(n => n % 2 !== 0));
+})([1, 2, 3, 4, 5]);
+
 
 //b.  Convert all the strings to title caps in a string array ?
 
-const stringArray = ["hello world", "javascript is awesome", "web development"];
-const titleCaseArray = stringArray.map(function (str) {
-  return str
-    .split(" ")
-    .map(function (word) {
-      return word.charAt(0).toUpperCase() + word.slice(1).toLowerCase();
-    })
-    .join(" ");
-});
-console.log("Title Case Strings:", titleCaseArray);
+Anonymous Function:
+
+let toTitleCaps = function(arr) {
+    return arr.map(str => str.toLowerCase().replace(/\b\w/g, c => c.toUpperCase()));
+};
+console.log(toTitleCaps(["hello", "world"]));
+
+IIFE:
+
+(function(arr) {
+    console.log(arr.map(str => str.toLowerCase().replace(/\b\w/g, c => c.toUpperCase())));
+})(["hello", "world"]);
+
 
 //c.  Sum of all numbers in an array ?
 
-function calculateSum(numbers) {
-  let sum = 0;
-  for (let i = 0; i < numbers.length; i++) {
-    sum += numbers[i];
-  }
-  return sum;
-}
-const numbers = [1, 2, 3, 4, 5, 6, 7, 8, 9];
-const result = calculateSum(numbers);
-console.log("Sum of Numbers:", result);
+Anonymous Function:
+
+let sumArray = function(arr) {
+    return arr.reduce((a, b) => a + b, 0);
+};
+console.log(sumArray([1, 2, 3, 4]));
+
+IIFE:
+
+(function(arr) {
+    console.log(arr.reduce((a, b) => a + b, 0));
+})([1, 2, 3, 4]);
+
 
 //d.  Return all the prime numbers in an array  ?
 
-function isPrime(num) {
-  if (num <= 1) return false;
-  if (num <= 3) return true;
-  if (num % 2 === 0 || num % 3 === 0) return false;
-  for (let i = 5; i * i <= num; i += 6) {
-    if (num % i === 0 || num % (i + 2) === 0) return false;
-  }
+Anonymous Function:
 
-  return true;
-}
-function getPrimeNumbers(arr) {
-  return arr.filter(function (num) {
-    return isPrime(num);
-  });
-}
-const numbers = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13];
-const primeNumbers = getPrimeNumbers(numbers);
-console.log("Prime Numbers:", primeNumbers);
+let getPrimes = function(arr) {
+    return arr.filter(n => {
+        for (let i = 2; i <= Math.sqrt(n); i++) {
+            if (n % i === 0) return false;
+        }
+        return n > 1;
+    });
+};
+console.log(getPrimes([1, 2, 3, 4, 5, 6, 7, 8, 9, 10]));
+
+
+IIFE:
+
+(function(arr) {
+    console.log(arr.filter(n => {
+        for (let i = 2; i <= Math.sqrt(n); i++) {
+            if (n % i === 0) return false;
+        }
+        return n > 1;
+    }));
+})([1, 2, 3, 4, 5, 6, 7, 8, 9, 10]);
+
 
 //e.  Return all the palindromes in an array
 
-function isPalindrome(str) {
-  const cleanStr = str.replace(/[^a-zA-Z0-9]/g, "").toLowerCase();
-  return cleanStr === cleanStr.split("").reverse().join("");
-}
+Anonymous Function:
 
-function getPalindromes(arr) {
-  return arr.filter(function (str) {
-    return isPalindrome(str);
-  });
-}
-const words = ["racecar", "level", "hello", "deified", "world", "madam"];
-const palindromes = getPalindromes(words);
-console.log("Palindromes:", palindromes);
+let getPalindromes = function(arr) {
+    return arr.filter(s => s === s.split('').reverse().join(''));
+};
+console.log(getPalindromes(["madam", "test", "nun", "hello"]));
+
+IIFE:
+
+(function(arr) {
+    console.log(arr.filter(s => s === s.split('').reverse().join('')));
+})(["madam", "test", "nun", "hello"]);
+
 
 //f. Return median of two sorted arrays of the same size.
 
-function findMedianSortedArrays(arr1, arr2) {
-  const mergedArray = mergeSortedArrays(arr1, arr2);
-  const length = mergedArray.length;
-  const middle = Math.floor(length / 2);
+Anonymous Function :
 
-  if (length % 2 === 0) {
-    return (mergedArray[middle - 1] + mergedArray[middle]) / 2;
-  } else {
-    return mergedArray[middle];
-  }
-}
+let findMedianSortedArrays = function(arr1, arr2) {
+    let merged = arr1.concat(arr2).sort((a, b) => a - b);
+    let mid = merged.length / 2;
+    return (merged[mid - 1] + merged[mid]) / 2;
+};
+console.log(findMedianSortedArrays([1, 3], [2, 4]));
 
-function mergeSortedArrays(arr1, arr2) {
-  const merged = [];
-  let i = 0;
-  let j = 0;
 
-  while (i < arr1.length && j < arr2.length) {
-    if (arr1[i] < arr2[j]) {
-      merged.push(arr1[i]);
-      i++;
-    } else {
-      merged.push(arr2[j]);
-      j++;
-    }
-  }
+IIFE:
 
-  while (i < arr1.length) {
-    merged.push(arr1[i]);
-    i++;
-  }
+(function(arr1, arr2) {
+    let merged = arr1.concat(arr2).sort((a, b) => a - b);
+    let mid = merged.length / 2;
+    console.log((merged[mid - 1] + merged[mid]) / 2);
+})([1, 3], [2, 4]);
 
-  while (j < arr2.length) {
-    merged.push(arr2[j]);
-    j++;
-  }
-
-  return merged;
-}
-const array1 = [1, 3, 5];
-const array2 = [2, 4, 6];
-const median = findMedianSortedArrays(array1, array2);
-console.log("Median:", median);
 
 //g.  Remove duplicates from an array ?
 
-function removeDuplicates(arr) {
-  const uniqueArray = [];
-  for (let i = 0; i < arr.length; i++) {
-    if (uniqueArray.indexOf(arr[i]) === -1) {
-      uniqueArray.push(arr[i]);
-    }
-  }
-  return uniqueArray;
-}
-const arrayWithDuplicates = [1, 2, 2, 3, 4, 4, 5, 6, 6];
-const arrayWithoutDuplicates = removeDuplicates(arrayWithDuplicates);
-console.log("Array without Duplicates:", arrayWithoutDuplicates);
+Anonymous Function:
+
+let removeDuplicates = function(arr) {
+    return [...new Set(arr)];
+};
+console.log(removeDuplicates([1, 2, 2, 3, 4, 4, 5]));
+
+IIFE:
+
+(function(arr) {
+    console.log([...new Set(arr)]);
+})([1, 2, 2, 3, 4, 4, 5]);
+
 
 //h.  Rotate an array by k times
 
-function rotateArray(arr, k) {
-  const n = arr.length;
-  k = k % n;
-  const firstPart = arr.slice(0, n - k);
-  const secondPart = arr.slice(n - k);
-  return secondPart.concat(firstPart);
-}
-const originalArray = [1, 2, 3, 4, 5];
-const rotations = 3;
-const rotatedArray = rotateArray(originalArray, rotations);
-console.log("Rotated Array:", rotatedArray);
+Anonymous Function:
+
+let rotateArray = function(arr, k) {
+    for (let i = 0; i < k; i++) {
+        arr.unshift(arr.pop());
+    }
+    return arr;
+};
+console.log(rotateArray([1, 2, 3, 4, 5], 2));
+
+
+IIFE:
+
+(function(arr, k) {
+    for (let i = 0; i < k; i++) {
+        arr.unshift(arr.pop());
+    }
+    console.log(arr);
+})([1, 2, 3, 4, 5], 2);
+
 
 //2.  Do the below programs in arrow functions.
 
